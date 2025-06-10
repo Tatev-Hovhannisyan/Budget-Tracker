@@ -11,8 +11,9 @@ function App() {
       <TransactionProvider>
         <h1>Budget Tracker</h1>
         <TransactionForm />
+          <BalanceDisplay />
         <TransactionHistory />
-        <BalanceDisplay />
+      
       </TransactionProvider>
     </>
   );
