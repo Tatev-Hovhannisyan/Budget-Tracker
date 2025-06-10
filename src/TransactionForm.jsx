@@ -1,16 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useTransactionDispatch } from './TransactionsContext';
 
-function TransactionForm({ amount, onChange, onIncome, onExpense }) {
+function TransactionForm() {
+const [amount, setAmount] = useState('');
+const dispatch = useTransactionDispatch();
+
+function handleChange(e){
+  const value = e.target.value;
+  if(Number(value) >= 0){
+    setAmount(value)
+  }
+}
+
+function addTransaction(type){
+  dispatch({
+    type,
+    amount: Number(amount)
+  });
+  setAmount('');
+  
+}
   return (
     <div className="transaction-form"> 
       <input 
       className='input'
         type='number' 
         value={amount} 
-        onChange={onChange} 
+        onChange={handleChange} 
       />
-      <button className='IncomeBtn' onClick={onIncome}>Income</button>
-      <button className='ExpenseBtn' onClick={onExpense}>Expense</button>
+      <button className='IncomeBtn' onClick={() => addTransaction('income')} >Income</button>
+      <button className='ExpenseBtn' onClick={() => addTransaction('expense')}>Expense</button>
     </div>
   );
 }
