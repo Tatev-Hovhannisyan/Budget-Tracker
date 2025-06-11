@@ -7,18 +7,18 @@ const dispatch = useTransactionDispatch();
 
 function handleChange(e){
   const value = e.target.value;
-  if(Number(value) > 0){
+  if(Number(value) >= 0){
     setAmount(value)
   }
   
 }
 
 function addTransaction(type){
-  if(amount === "" || Number(amount) <= 0) return;
+  if(amount === "" || Number(amount) < 0) return;
   
   dispatch({
     type,
-    amount: Number(amount)
+    amount: Number(Number(amount).toFixed(2))
   });
   setAmount('');
   
