@@ -1,39 +1,61 @@
 import React, { useState } from 'react';
-import { useTransactionDispatch } from './TransactionsContext';
+import { useTransaction, useTransactionDispatch } from './TransactionsContext';
 
 function TransactionForm() {
-const [amount, setAmount] = useState('');
-const dispatch = useTransactionDispatch();
+  const [amount, setAmount] = useState('');
+  const [error, setError] = useState('');
+  const dispatch = useTransactionDispatch();
+  const { balance } = useTransaction();
 
-function handleChange(e){
-  const value = e.target.value;
-  if(Number(value) >= 0){
-    setAmount(value)
+  function handleChange(e) {
+    const value = e.target.value;
+    if (Number(value) >= 0) {
+      setAmount(value);
+      setError('');
+    }
   }
-  
-}
 
-function addTransaction(type){
-  if(amount === "" || Number(amount) < 0) return;
-  
-  dispatch({
-    type,
-    amount: Number(Number(amount).toFixed(2))
-  });
-  setAmount('');
-  
-}
+  function addTransaction(type) {
+    const numericAmount = Number(amount);
+    if (amount === "" || numericAmount < 0) {
+      setError("Please enter a valid amount.");
+      return;
+    }
+
+    if (type === "expense" && numericAmount > balance) {
+      setError("Insufficient funds for this expense.");
+      return;
+    }
+
+    setError("");
+    dispatch({
+      type,
+      amount: Number(numericAmount.toFixed(2)),
+    });
+    setAmount('');
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();     
+    addTransaction('income'); 
+  }
+
   return (
-    <div className="transaction-form"> 
-      <input 
-      className='input'
-        type='number' 
-        value={amount} 
-        onChange={handleChange} 
+    <form onSubmit={handleSubmit} className="transaction-form">
+      <input
+        className='input'
+        type='number'
+        value={amount}
+        onChange={handleChange}
       />
-      <button className='IncomeBtn' onClick={() => addTransaction('income')} >Income</button>
-      <button className='ExpenseBtn' onClick={() => addTransaction('expense')}>Expense</button>
-    </div>
+      <button type="button" className='IncomeBtn' onClick={() => addTransaction('income')}>
+        Income
+      </button>
+      <button type='button' className='ExpenseBtn' onClick={() => addTransaction('expense')}>
+        Expense
+      </button>
+      {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
+    </form>
   );
 }
 

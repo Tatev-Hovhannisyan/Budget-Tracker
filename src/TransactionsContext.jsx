@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useReducer } from "react";
 
 const TransactionContext = createContext(null);
 const TransactionDispatchContext = createContext(null);
@@ -25,59 +25,74 @@ export function useTransactionDispatch() {
 
 const initialState = {
   balance: 0,
-  history: []
+  history: [],
 };
 
 function transactionReducer(state, action) {
   switch (action.type) {
-    case 'income': {
-      const newBalance = state.balance + action.amount;
+    case "income": {
+      const amount = Number(action.amount);
+      if (isNaN(amount) || amount <= 0) return state;
+
+      const newBalance = Number((state.balance + amount).toFixed(2));
+
       return {
         balance: newBalance,
         history: [
           ...state.history,
           {
-            type: 'income',
-            amount: action.amount,
+            type: "income",
+            amount,
             currentBalance: newBalance,
-            timestamp: Date.now()
-          }
-        ]
+            timestamp: Date.now(),
+          },
+        ],
       };
     }
 
-    case 'expense': {
-      const newBalance = state.balance - action.amount;
+    case "expense": {
+      const amount = Number(action.amount);
+      if (isNaN(amount) || amount <= 0) return state;
+
+      if (amount > state.balance) {
+        return state;
+      }
+
+      const newBalance = Number((state.balance - amount).toFixed(2));
+
       return {
         balance: newBalance,
         history: [
           ...state.history,
           {
-            type: 'expense',
-            amount: action.amount,
+            type: "expense",
+            amount,
             currentBalance: newBalance,
-            timestamp: Date.now()
-          }
-        ]
+            timestamp: Date.now(),
+          },
+        ],
       };
     }
 
-    case 'deleted': {
+    case "deleted": {
       const item = state.history[action.index];
+      if (!item) return state;
+
       const updatedHistory = state.history.filter((_, i) => i !== action.index);
+
       const newBalance =
-        item.type === 'income'
-          ? state.balance - item.amount
-          : state.balance + item.amount;
+        item.type === "income"
+          ? Number((state.balance - item.amount).toFixed(2))
+          : Number((state.balance + item.amount).toFixed(2));
 
       return {
         balance: newBalance,
-        history: updatedHistory
+        history: updatedHistory,
       };
     }
 
-    default: {
-      throw new Error(`Unknown action: ${action.type}`);
-    }
+    default:
+      return state;
   }
 }
+
