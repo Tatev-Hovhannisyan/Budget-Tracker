@@ -8,16 +8,14 @@ function TransactionForm() {
   const { balance } = useTransaction();
 
   function handleChange(e) {
-    const value = e.target.value;
-    if (Number(value) >= 0) {
-      setAmount(value);
-      setError('');
-    }
+    setAmount(e.target.value);
+    setError('');
   }
 
   function addTransaction(type) {
     const numericAmount = Number(amount);
-    if (amount === "" || numericAmount < 0) {
+
+    if (amount === "" || isNaN(numericAmount) || numericAmount < 0) {
       setError("Please enter a valid amount.");
       return;
     }
@@ -36,8 +34,8 @@ function TransactionForm() {
   }
 
   function handleSubmit(e) {
-    e.preventDefault();     
-    addTransaction('income'); 
+    e.preventDefault();
+    addTransaction('income');
   }
 
   return (
@@ -47,6 +45,8 @@ function TransactionForm() {
         type='number'
         value={amount}
         onChange={handleChange}
+        step="0.01"
+        min="0"
       />
       <button type="button" className='IncomeBtn' onClick={() => addTransaction('income')}>
         Income
