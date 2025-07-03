@@ -3,6 +3,25 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+}
+
+.main-heading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;  
+  background: linear-gradient(135deg, #eaf1eb, #23da5a);
+  z-index: 1000;
+  padding: 10px 0;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ccc;
+  text-align:right;
+  font-size: 32px;
+  color: #074e17;
+  margin: 10px;
+  padding-right: 20px;
 }
 
 .input {
@@ -12,19 +31,22 @@
 
 .transaction-form {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .IncomeBtn {
-  background-color: #155724;
+  background-color: #969393;
   color: #fdfcfc;
   padding: 5px 10px;
   font-size: 16px;
 }
 
 .ExpenseBtn {
-  background-color: #721c24;
+  background-color: #969393;
   color: #fdfcfc;
   padding: 5px 10px;
   font-size: 16px;
@@ -33,6 +55,8 @@
 .ul {
   padding: 0;
   margin: 0;
+  min-height: 200px;
+  overflow-y: auto;
 }
 
 .li {
@@ -41,9 +65,9 @@
   justify-content: space-between;
   align-items: center;
 
-  width: 800px;
-  padding: 10px 60px 10px 10px; /* больше места справа */
-  margin: 0 auto;
+  width: 900px;
+  padding: 10px 60px 10px 10px; 
+  margin: 5px auto;
   box-sizing: border-box;
 }
 
@@ -97,9 +121,102 @@
 }
 
 .balance {
-  width: 800px;
-  height: 40px;
+  margin: 30px;
+  width: 400px;
+  height: 150px;
   font-size: 25px;
   color: #fdfcfc;
-  background-color: rgba(143, 140, 143, 0.867);
+  padding: 40px;
+  background: linear-gradient(135deg, #0ba018, #23da5a);
+  box-shadow: 0 0 20px rgba(11, 110, 2, 0.3);
+  border-radius: 12px;
+}
+
+.historyBtn {
+  margin: 20px;
+  background-color: #59c203;
+  color: #fdfcfc;
+}
+
+.backBtn {
+    position: fixed;
+  top: 30px;
+  left: 20px;
+  background-color: #3ea006;
+  color: #f7f5f5;
+  padding: 6px 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 11;
+  transition: background-color 0.3s ease;
+  z-index: 1100;
+}
+
+.backBtn:hover {
+  background-color: #57ac57;
+}
+
+.btnAll {
+  background-color: #ac7603;
+}
+.btnIncomes {
+  background-color: #59c203;
+}
+.btnExpenses {
+  background-color: #721c24;
+}
+
+.btnAll,
+.btnIncomes,
+.btnExpenses {
+  color: #fdfbfb;
+  margin: 5px;
+}
+
+.historyStyle {
+  background: linear-gradient(135deg, #0766d3, #23da5a) ;
+  color: #ffffff;
+  height: 50px;
+  width: 700px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin: 10px auto; 
+}
+
+.filter-buttons {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  z-index: 10;
+  margin: 10px;
+}
+
+.transaction-history-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px 0;
+  width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.selected {
+  border: 2px solid #550202;
+  background-color: #b40d0d;
+}
+
+.right-panel {
+  margin-left: 300px;
+  padding: 20px;
+  box-sizing: border-box;
 }

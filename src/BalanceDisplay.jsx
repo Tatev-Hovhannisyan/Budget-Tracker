@@ -2,7 +2,14 @@ import { useTransaction } from './TransactionsContext';
 
 function BalanceDisplay() {
   const { balance } = useTransaction();
-  return <h3 className="balance">Your Current Balance is ${balance}</h3>;
+  return (
+  <div className="balance">
+  <h3>Your available balance is</h3>
+  <h2>{`${balance.toLocaleString('de-DE')} $`}</h2>
+
+</div>
+
+ );
 }
 
 export default BalanceDisplay;
