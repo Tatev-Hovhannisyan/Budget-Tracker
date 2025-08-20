@@ -19,7 +19,7 @@ function TransactionForm() {
     setError('');
   }
 
-  function addTransaction() {
+  function addTransaction(forceType) {
     const cleaned = amount.replace(',', '.');
     const numericAmount = Number(cleaned);
 
@@ -28,13 +28,15 @@ function TransactionForm() {
       return;
     }
 
-    if (type === "expense" && numericAmount > balance) {
+    const finalType = forceType || type;
+
+    if (finalType === "expense" && numericAmount > balance) {
       setError("Insufficient funds for this expense.");
       return;
     }
 
     dispatch({
-      type,
+      type: finalType,
       amount: Number(numericAmount.toFixed(2)),
     });
 
@@ -56,7 +58,7 @@ function TransactionForm() {
   return (
     <form className="transaction-form" onKeyDown={handleKeyDown}>
       <input
-      ref = {inputRef}
+        ref={inputRef}
         className="input"
         type="number"
         value={amount}
@@ -71,8 +73,8 @@ function TransactionForm() {
           type="button"
           className={`IncomeBtn ${type === 'income' ? 'selected' : ''}`}
           onClick={() => {
-            setType('income')
-          addTransaction()
+            setType('income');
+            addTransaction('income');
           }}
         >
           Income
@@ -82,8 +84,8 @@ function TransactionForm() {
           type="button"
           className={`ExpenseBtn ${type === 'expense' ? 'selected' : ''}`}
           onClick={() => {
-            setType('expense')
-          addTransaction();
+            setType('expense');
+            addTransaction('expense');
           }}
         >
           Expense
